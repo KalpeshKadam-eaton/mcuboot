@@ -60,7 +60,8 @@ assert_exists(FIAT_DIR)
 set(MBEDTLS_ASN1_DIR "${MCUBOOT_DIR}/ext/mbedtls-asn1")
 assert_exists(MBEDTLS_ASN1_DIR)
 set(NRF_DIR "${MCUBOOT_DIR}/ext/nrf")
-
+# Path to mbed-tls' library.
+set(MBEDTLS_DIR "${MCUBOOT_DIR}/ext/mbedtls")
 if(CONFIG_BOOT_USE_NRF_CC310_BL)
 set(NRFXLIB_DIR ${ZEPHYR_BASE}/../nrfxlib)
 if(NOT EXISTS ${NRFXLIB_DIR})
@@ -141,16 +142,9 @@ zephyr_library_sources(
 endif()
 
 if(CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256 OR CONFIG_BOOT_ENCRYPT_EC256)
-  zephyr_library_include_directories(
-    ${MBEDTLS_ASN1_DIR}/include
-    )
-  zephyr_library_sources(
-    # Additionally pull in just the ASN.1 parser from mbedTLS.
-    ${MBEDTLS_ASN1_DIR}/src/asn1parse.c
-    ${MBEDTLS_ASN1_DIR}/src/platform_util.c
-    )
+
   if(NOT DEFINED CONFIG_BOOT_USE_MBEDTLS)
-    message(FATAL_ERROR "Not using mbedtls")
+    #message(FATAL_ERROR "Not using mbedtls")
     zephyr_library_include_directories(
       ${MBEDTLS_ASN1_DIR}/include
       )
@@ -161,6 +155,12 @@ if(CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256 OR CONFIG_BOOT_ENCRYPT_EC256)
       ${MBEDTLS_ASN1_DIR}/src/asn1parse.c
       ${MBEDTLS_ASN1_DIR}/src/platform_util.c
       )
+  # Since here we are not using Zephyr's mbedTLS but rather our own, we need
+  # to set MBEDTLS_CONFIG_FILE ourselves. When using Zephyr's copy, this
+  # variable is set by its Kconfig in the Zephyr codebase.
+  zephyr_library_compile_definitions(
+    MBEDTLS_CONFIG_FILE="${CMAKE_CURRENT_LIST_DIR}/include/mcuboot-mbedtls-cfg.h"
+    )
   endif()
   if(CONFIG_BOOT_USE_TINYCRYPT)
   # When using ECDSA signatures, pull in our copy of the tinycrypt library.
@@ -181,12 +181,6 @@ if(CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256 OR CONFIG_BOOT_ENCRYPT_EC256)
     zephyr_link_libraries(nrfxlib_crypto)
   endif()
 
-  # Since here we are not using Zephyr's mbedTLS but rather our own, we need
-  # to set MBEDTLS_CONFIG_FILE ourselves. When using Zephyr's copy, this
-  # variable is set by its Kconfig in the Zephyr codebase.
-  zephyr_library_compile_definitions(
-    MBEDTLS_CONFIG_FILE="${CMAKE_CURRENT_LIST_DIR}/include/mcuboot-mbedtls-cfg.h"
-    )
 elseif(CONFIG_BOOT_SIGNATURE_TYPE_NONE)
   zephyr_library_include_directories(
     ${BOOT_DIR}/zephyr/include
