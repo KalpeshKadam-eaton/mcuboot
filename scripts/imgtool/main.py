@@ -75,7 +75,7 @@ def load_cert(filename):
         with open(filename, 'rb') as file:
             value = file.read()
     except FileNotFoundError:
-        msg = " The file " + filename + " does not exist".
+        msg = " The file " + filename + " does not exist"
         print( msg )
     return value
 
