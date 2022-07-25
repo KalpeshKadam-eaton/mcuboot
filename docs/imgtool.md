@@ -61,6 +61,7 @@ primary slot and adds a header and trailer that the bootloader is expecting:
     Options:
       -k, --key filename
       --public-key-format [hash|full]
+	  --cert                        Certificate file path with tag field value
       --align [1|2|4|8]             [required]
       -v, --version TEXT            [required]
       -s, --security-counter TEXT   Specify the value of security counter. Use
@@ -133,3 +134,7 @@ public key is incorporated into the bootloader). When the `full` option is used
 instead, the TLV area will contain the whole public key and thus the bootloader
 can be independent from the key(s). For more information on the additional
 requirements of this option, see the [design](design.md) document.
+
+The --cert argument can be used to provide the certificate file path.
+Specify the option multiple time to add multiple certificates. Tag field can 
+have the same value. TLV will be created in the form : Tag|Length|Value.

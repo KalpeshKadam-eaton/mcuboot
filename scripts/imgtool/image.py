@@ -60,6 +60,7 @@ IMAGE_F = {
 TLV_VALUES = {
         'KEYHASH': 0x01,
         'PUBKEY': 0x02,
+        'X509': 0x03,
         'SHA256': 0x10,
         'RSA2048': 0x20,
         'ECDSA224': 0x21,
@@ -287,7 +288,7 @@ class Image():
                 format=PublicFormat.Raw)
         return cipherkey, ciphermac, pubk
 
-    def create(self, key, public_key_format, enckey, dependencies=None,
+    def create(self, key, public_key_format, enckey, certificates=None, dependencies=None,
                sw_type=None, custom_tlvs=None):
         self.enckey = enckey
 
@@ -406,13 +407,22 @@ class Image():
         sha.update(self.payload)
         digest = sha.digest()
 
+        # add image hash as TLV
         tlv.add('SHA256', digest)
 
+        # add certificates value as TLV
+        if certificates is not None:
+            # Certificates dictionary contain Tag name and Tag value field inside value part. 
+            for index, value in certificates.items():
+                tlv.add(value[0], value[1])
+
         if key is not None:
-            if public_key_format == 'hash':
-                tlv.add('KEYHASH', pubbytes)
-            else:
-                tlv.add('PUBKEY', pub)
+            # keyhash is not required in certificates based approach
+            if len(certificates) == 0:
+                if public_key_format == 'hash':
+                    tlv.add('KEYHASH', pubbytes)
+                else:
+                    tlv.add('PUBKEY', pub)
 
             # `sign` expects the full image payload (sha256 done internally),
             # while `sign_digest` expects only the digest of the payload
