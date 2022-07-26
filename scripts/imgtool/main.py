@@ -76,7 +76,7 @@ def load_cert(filename):
             value = file.read()
     except FileNotFoundError:
         msg = " The file " + filename + " does not exist"
-        print( msg )
+        print(msg)
     return value
 
 
@@ -297,9 +297,14 @@ class BasedIntParamType(click.ParamType):
 @click.option('-v', '--version', callback=validate_version,  required=True)
 @click.option('--align', type=click.Choice(['1', '2', '4', '8']),
               required=True)
-@click.option('--cert', required=False, nargs=2, default=[], multiple=True,
-              metavar='[tag] [filename]',
-              help='Certificate TLV')
+@click.option('--cert', required=False, nargs=1, default=[], multiple=True,
+              metavar='[filename]',
+              help='cert argument will be used to provide the certificate file'
+                   'path. Specify the option 2 times to add Intermediate and'
+                   'Product certificates. Certificate need to be pass in sequence'
+                   'i.e 1st Intermediate and 2nd Product certificate. Root '
+                   'Certificate not required and should not be pass as argument.'
+                   'Certificate TLV will hold the "X509" i.e 0x03 as tag value.')
 @click.option('--public-key-format', type=click.Choice(['hash', 'full']),
               default='hash', help='In what format to add the public key to '
               'the image manifest: full key or hash of the key.')
@@ -360,8 +365,8 @@ def sign(key, public_key_format, cert, align, version, pad_sig, header_size,
     # Get list of certificates from the command-line
     index = 0
     certificates = {}
-    for cert_value in cert:
-        certificates[index] = (int(cert_value[0], 0), load_cert(cert_value[1]))
+    for filepath in cert:
+        certificates[index] = load_cert(filepath)
         index += 1
 
     # Create signed image

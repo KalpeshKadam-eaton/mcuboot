@@ -412,9 +412,9 @@ class Image():
 
         # add certificates value as TLV
         if certificates is not None:
-            # Certificates dictionary contain Tag name and Tag value field inside value part. 
+            # Certificates dictionary contain Tag value field inside value part. 
             for index, value in certificates.items():
-                tlv.add(value[0], value[1])
+                tlv.add('X509', value)
 
         if key is not None:
             # keyhash is not required in certificates based approach

@@ -61,7 +61,8 @@ primary slot and adds a header and trailer that the bootloader is expecting:
     Options:
       -k, --key filename
       --public-key-format [hash|full]
-	  --cert                        Certificate file path with tag field value
+      --cert                        Specify intermediate and product certificate 
+                                    file path.
       --align [1|2|4|8]             [required]
       -v, --version TEXT            [required]
       -s, --security-counter TEXT   Specify the value of security counter. Use
@@ -136,5 +137,8 @@ can be independent from the key(s). For more information on the additional
 requirements of this option, see the [design](design.md) document.
 
 The --cert argument can be used to provide the certificate file path.
-Specify the option multiple time to add multiple certificates. Tag field can 
-have the same value. TLV will be created in the form : Tag|Length|Value.
+Specify the option 2 times to add intermediate and product certificates.
+Certificate need to be pass in sequence i.e 1st Intermediate and 2nd Product
+certificate. Root Certificate not required and should not be pass as argument.
+Certificate TLV will hold the "X509" i.e 0x03 as tag value.
+
