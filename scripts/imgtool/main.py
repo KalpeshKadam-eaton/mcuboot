@@ -299,7 +299,7 @@ class BasedIntParamType(click.ParamType):
               required=True)
 @click.option('--cert', required=False, nargs=1, default=[], multiple=True,
               metavar='[filename]',
-              help='cert argument will be used to provide the certificate file '
+              help='This argument will be used to provide the certificate file '
                    'path. Specify the option 2 times to add Intermediate and '
                    'Product certificates. Certificate need to be pass in sequence '
                    'i.e 1st Intermediate and 2nd Product certificate. Root '
