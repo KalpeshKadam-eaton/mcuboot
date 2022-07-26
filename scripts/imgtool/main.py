@@ -299,11 +299,11 @@ class BasedIntParamType(click.ParamType):
               required=True)
 @click.option('--cert', required=False, nargs=1, default=[], multiple=True,
               metavar='[filename]',
-              help='cert argument will be used to provide the certificate file'
-                   'path. Specify the option 2 times to add Intermediate and'
-                   'Product certificates. Certificate need to be pass in sequence'
+              help='cert argument will be used to provide the certificate file '
+                   'path. Specify the option 2 times to add Intermediate and '
+                   'Product certificates. Certificate need to be pass in sequence '
                    'i.e 1st Intermediate and 2nd Product certificate. Root '
-                   'Certificate not required and should not be pass as argument.'
+                   'Certificate not required and should not be pass as argument. '
                    'Certificate TLV will hold the "X509" i.e 0x03 as tag value.')
 @click.option('--public-key-format', type=click.Choice(['hash', 'full']),
               default='hash', help='In what format to add the public key to '
