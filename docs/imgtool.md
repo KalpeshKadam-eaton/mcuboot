@@ -139,6 +139,6 @@ requirements of this option, see the [design](design.md) document.
 The --cert argument can be used to provide the certificate file path.
 Specify the option 2 times to add intermediate and product certificates.
 Certificate need to be pass in sequence i.e 1st Intermediate and 2nd Product
-certificate. Root Certificate not required and should not be pass as argument.
+certificate. Root Certificate is not required to pass as argument. It should be part of bootloader as a trusted ca.
 Certificate TLV will hold the "X509" i.e 0x03 as tag value.
 
