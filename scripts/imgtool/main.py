@@ -304,7 +304,7 @@ class BasedIntParamType(click.ParamType):
                    'Product certificates. Certificate need to be pass in sequence '
                    'i.e 1st Intermediate and 2nd Product certificate. Root '
                    'Certificate not required to pass as argument. It should be part of '
-                   'Certificate TLV will hold the "X509" i.e 0x03 as tag value.')
+                   'bootloader. Certificate TLV will hold the "X509" i.e 0x03 as tag value.')
 @click.option('--public-key-format', type=click.Choice(['hash', 'full']),
               default='hash', help='In what format to add the public key to '
               'the image manifest: full key or hash of the key.')
