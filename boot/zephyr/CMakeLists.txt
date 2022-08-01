@@ -142,7 +142,7 @@ zephyr_library_sources(
 endif()
 
 if(CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256 OR CONFIG_BOOT_ENCRYPT_EC256)
-
+	zephyr_include_directories(include)
   if(NOT DEFINED CONFIG_BOOT_USE_MBEDTLS)
     #message(FATAL_ERROR "Not using mbedtls")
     zephyr_library_include_directories(

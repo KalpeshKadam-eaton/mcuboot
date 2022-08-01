@@ -105,7 +105,7 @@ config BOOT_SIGNATURE_TYPE_ECDSA_P256
 if BOOT_SIGNATURE_TYPE_ECDSA_P256
 choice
 	prompt "Ecdsa implementation"
-	default BOOT_ECDSA_X509
+	default BOOT_ECDSA_TINYCRYPT
 
 config BOOT_ECDSA_TINYCRYPT
 	bool "Use tinycrypt"

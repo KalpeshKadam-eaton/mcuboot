@@ -26,8 +26,11 @@
 #elif defined(CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256) || \
       defined(CONFIG_BOOT_ENCRYPT_EC256) || \
       (defined(CONFIG_BOOT_ENCRYPT_X25519) && !defined(CONFIG_BOOT_SIGNATURE_TYPE_ED25519))
-//#include "config-asn1.h"
-#include "config-ecdsa.h"
+	#if defined(CONFIG_BOOT_USE_MBEDTLS)
+	#include "config-ecdsa.h"
+	#else
+	#include "config-asn1.h"
+	#endif
 #elif defined(CONFIG_BOOT_SIGNATURE_TYPE_ED25519)
 #include "config-ed25519.h"
 #else
