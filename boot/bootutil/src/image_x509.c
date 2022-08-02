@@ -127,7 +127,7 @@ bootutil_img_validate(struct enc_key_data *enc_state, int image_index,
 
             sha256_valid = true;
         } else if (type == IMAGE_TLV_X509) {
-            if (len > sizeof buf) {
+            if (len > sizeof (buf)) {
                 ret = -1;
                 goto cleanup;
             }
@@ -163,7 +163,7 @@ bootutil_img_validate(struct enc_key_data *enc_state, int image_index,
                                          verify_callback, NULL);
             if (rc == 0) {
             	 // validate the image signature
-            	  if (len > sizeof buf) {
+            	  if (len > sizeof (buf)) {
             		  	  	  	ret = -1;
             		  	  	  	goto cleanup;
             	            }
